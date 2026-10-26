@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bernard Abuto — Portfolio
 
-## Getting Started
+Personal website for Bernard Abuto, Machine Learning Research Engineer and AI Systems Engineer, Kenya.
 
-First, run the development server:
+Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS 4. There is no database or CMS. Every page is prerendered; the only server code is the contact form's Server Action.
+
+## Running locally
+
+Requires Node.js 20 or later.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Production build:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Checks:
 
-## Learn More
+```bash
+npx tsc --noEmit   # types (run after a build so route types exist)
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Where things live
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| What | Where |
+| --- | --- |
+| Name, links, email, site description | `src/content/site.ts` |
+| Project content, statuses, and "current state" | `src/content/projects.ts` |
+| Experience | `src/content/experience.ts` |
+| Education and training | `src/content/education.ts` |
+| Research pipeline copy, research interests | `src/content/research.ts` |
+| Blog posts | `src/content/blog.ts` |
+| Contact form topics | `src/content/contact.ts` |
+| Contact form sending logic | `src/app/actions/contact.ts` |
+| Homepage sections | `src/components/sections/` |
+| Project page template | `src/components/projects/ProjectArticle.tsx` |
+| Project diagrams | `src/components/projects/*Diagram.tsx` |
+| Colours (dark theme), fonts, utilities | `src/app/globals.css`, `src/app/layout.tsx` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Project pages are generated from `projects.ts` at `/work/[slug]`. To add a project, add an entry there and a matching diagram in `ProjectVisual.tsx`.
 
-## Deploy on Vercel
+When a project changes, update its `components` list (each has a `state`) and its `currentState` first. Those are what keep the site honest.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Writing a blog post
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Posts live in `src/content/blog.ts` as structured blocks (paragraphs, headings, lists, quotes, code, tables); wrap inline code in backticks. Add an entry to `posts` and it appears on the homepage, at `/blog`, in the sitemap, and with its own social preview image. Set `project` to a project slug to cross-link it.
+
+## Portrait
+
+The hero shows `public/images/bernard-portrait.jpg` (4:5 frame). To change it, replace that file and redeploy. If the file is missing, a placeholder is shown instead of a broken image.
+
+## Contact form
+
+The form sends email through [Resend](https://resend.com) from a Server Action — no extra packages, and your email address is never shown on the site. Messages arrive with Reply-To set to the visitor, so you can reply directly.
+
+1. Create a free Resend account **using the address you want messages delivered to**, and create an API key.
+2. In Vercel → Project → Settings → Environment Variables, add `RESEND_API_KEY`. Redeploy.
+
+That is enough: by default the form sends from Resend's test sender (`onboarding@resend.dev`), which can only deliver to your own Resend account address. Optional variables (see `.env.example`):
+
+- `CONTACT_TO_EMAIL` — delivery address (defaults to the email in `src/content/site.ts`).
+- `CONTACT_FROM_EMAIL` — a sender on a domain you have verified in Resend, e.g. `Portfolio <hello@your-domain>`.
+
+Without `RESEND_API_KEY`, the form validates input but tells visitors the message couldn't be sent, and logs the reason on the server.
+
+## Deploying to Vercel
+
+1. Push the repository to GitHub.
+2. In Vercel, choose **Add New → Project** and import the repository. The framework preset (Next.js) and build settings are detected automatically.
+3. Optionally set the production domain (see below), then deploy.
+
+## Configuring the domain
+
+Canonical URLs, Open Graph URLs, the sitemap, and robots.txt all use one value:
+
+```
+NEXT_PUBLIC_SITE_URL=https://your-domain.example
+```
+
+Set it under **Vercel → Project → Settings → Environment Variables**, or in `.env.local` locally. If it is unset, the site falls back to `https://bernard-portfolio-vert.vercel.app` (defined in `src/content/site.ts`).
+
+## Notes
+
+- Fonts (Instrument Serif, Inter, IBM Plex Mono) are self-hosted at build time through `next/font`.
+- Motion is CSS-only and is switched off under `prefers-reduced-motion`.
+- The research pipeline renders all six stage descriptions into the HTML. Inactive ones are hidden visually, so the text stays available to search engines and to visitors without JavaScript.

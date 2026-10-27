@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getProject, type Project } from "@/content/projects";
 import { ProjectVisual } from "@/components/projects/ProjectVisual";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TextLink } from "@/components/ui/TextLink";
 
 function ProjectMeta({ project, index }: { project: Project; index: number }) {
@@ -59,24 +58,17 @@ function ProjectText({
   );
 }
 
-export function SelectedWork() {
+/** Full project showcase for /work: editorial layout with each project's diagram. */
+export function ProjectShowcase() {
   const sauti = getProject("sauti-labs")!;
   const scribe = getProject("scribe-ai")!;
   const rentra = getProject("rentra")!;
   const quelea = getProject("queleaguard")!;
 
   return (
-    <section id="work" aria-labelledby="work-heading" className="page-container py-16 lg:py-24">
-      <SectionHeader meta="01 / Selected work" heading="Work at the intersection of research and systems." headingId="work-heading">
-        <p>
-          These projects explore different parts of the same problem: how to turn technical ideas into systems that
-          can be understood, evaluated, and used. Some are active engineering efforts; others are ongoing research.
-          Each reflects a different part of how I approach building.
-        </p>
-      </SectionHeader>
-
+    <section aria-label="Projects" className="page-container pb-24 pt-12 lg:pb-32 lg:pt-20">
       {/* Feature: Sauti Labs */}
-      <article className="mt-16 grid gap-10 border-t border-line pt-10 lg:mt-24 lg:grid-cols-12 lg:gap-10 lg:pt-14">
+      <article className="grid gap-10 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <ProjectText project={sauti} index={1} titleClass="text-5xl sm:text-6xl lg:text-[4.25rem]" />
         </div>

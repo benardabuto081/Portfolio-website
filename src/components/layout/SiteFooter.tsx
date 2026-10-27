@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
-import { site } from "@/content/site";
+import Link from "next/link";
+import { navigation, site } from "@/content/site";
 import { TextLink } from "@/components/ui/TextLink";
 
 /** Cached so the footer stays static; refreshed daily on revalidation. */
@@ -13,7 +14,18 @@ export async function SiteFooter() {
   const year = await getCurrentYear();
 
   return (
-    <footer className="mt-32 border-t border-line">
+    <footer className="border-t border-line">
+      <nav aria-label="Site" className="page-container">
+        <ul className="flex flex-wrap gap-x-8 gap-y-3 border-b border-line py-8 text-sm">
+          {navigation.map((item) => (
+            <li key={item.key}>
+              <Link href={item.href} className="link-underline text-muted hover:text-fg">
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
       <div className="page-container grid gap-8 py-10 text-muted sm:grid-cols-2 sm:items-end">
         <div className="space-y-2">
           <p className="meta text-fg">BERNARD ABUTO · KENYA</p>

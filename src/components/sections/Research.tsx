@@ -1,19 +1,12 @@
 import { pipelineStages, researchInterests } from "@/content/research";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ResearchPipeline } from "./ResearchPipeline";
 
 const roman = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"];
 
-export function Research() {
+/** Body of /research: the interactive pipeline and research interests. */
+export function ResearchBody() {
   return (
-    <section id="research" aria-labelledby="research-heading" className="page-container py-16 lg:py-24">
-      <SectionHeader meta="02 / Research & engineering" heading="Between the model and the system." headingId="research-heading">
-        <p>
-          Machine learning is more than the model itself. It is also the data, the experiments, the evaluation, the
-          infrastructure, and the decisions that determine whether a method works outside a notebook. I&apos;m
-          interested in the engineering that connects these pieces.
-        </p>
-      </SectionHeader>
+    <section aria-label="Research and engineering" className="page-container pb-24 pt-4 lg:pb-32 lg:pt-8">
 
       <ResearchPipeline stages={pipelineStages} />
 

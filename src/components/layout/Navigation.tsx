@@ -5,65 +5,18 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { navigation, type NavKey } from "@/content/site";
 
-/** Homepage section ids, in page order, mapped to the nav item they belong to. */
-const sectionToNav: [string, NavKey | null][] = [
-  ["work", "work"],
-  ["research", "research"],
-  ["experience", "experience"],
-  ["blog", "blog"],
-  ["about", "about"],
-  ["education", "about"],
-  ["contact", "contact"],
-];
-
-function useActiveSection(enabled: boolean): NavKey | null {
-  const [active, setActive] = useState<NavKey | null>(null);
-
-  useEffect(() => {
-    if (!enabled) return;
-    let frame = 0;
-
-    const update = () => {
-      frame = 0;
-      const threshold = window.innerHeight * 0.35;
-      let current: NavKey | null = null;
-      for (const [id, key] of sectionToNav) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= threshold) current = key;
-      }
-      // At the very bottom, the last section is the one being read.
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
-        current = "contact";
-      }
-      setActive(current);
-    };
-
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [enabled]);
-
-  return enabled ? active : null;
+/** The nav item for the current route: exact match for Home, prefix match for the rest. */
+function activeKey(pathname: string): NavKey | null {
+  if (pathname === "/") return "home";
+  const item = navigation.find(
+    (entry) => entry.href !== "/" && (pathname === entry.href || pathname.startsWith(`${entry.href}/`)),
+  );
+  return item?.key ?? null;
 }
 
 export function Navigation() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  const sectionActive = useActiveSection(isHome);
-  const active: NavKey | null = pathname.startsWith("/work")
-    ? "work"
-    : pathname.startsWith("/blog")
-      ? "blog"
-      : sectionActive;
+  const active = activeKey(pathname);
 
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -101,7 +54,7 @@ export function Navigation() {
               <li key={item.key}>
                 <Link
                   href={item.href}
-                  aria-current={isActive ? (isHome ? "location" : "page") : undefined}
+                  aria-current={isActive ? "page" : undefined}
                   className={`relative py-2 transition-colors duration-200 hover:text-fg ${
                     isActive ? "text-fg" : "text-muted"
                   }`}
@@ -156,10 +109,10 @@ export function Navigation() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  aria-current={active === item.key ? (isHome ? "location" : "page") : undefined}
+                  aria-current={active === item.key ? "page" : undefined}
                   className="flex min-h-14 items-baseline gap-4 py-4 font-serif text-2xl"
                 >
-                  <span className="meta w-6 text-muted">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="meta w-6 text-muted">{String(index).padStart(2, "0")}</span>
                   <span className={active === item.key ? "underline decoration-accent underline-offset-6" : ""}>
                     {item.label}
                   </span>

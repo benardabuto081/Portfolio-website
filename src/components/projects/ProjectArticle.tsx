@@ -45,59 +45,61 @@ export function ProjectArticle({ project }: { project: Project }) {
 
   return (
     <article>
-      <header className="page-container pt-10 sm:pt-14 lg:pt-20">
-        <nav aria-label="Breadcrumb">
-          <ol className="meta flex flex-wrap items-center gap-2 text-muted">
-            <li>
-              <Link href="/#work" className="link-underline hover:text-fg">
-                Work
-              </Link>
-            </li>
-            <li aria-hidden="true">/</li>
-            <li aria-current="page" className="text-fg">
-              {project.title}
-            </li>
-          </ol>
-        </nav>
+      <div className="border-b border-line bg-panel">
+        <header className="page-container pb-12 pt-10 sm:pt-14 lg:pb-16 lg:pt-20">
+          <nav aria-label="Breadcrumb">
+            <ol className="meta flex flex-wrap items-center gap-2 text-muted">
+              <li>
+                <Link href="/work" className="link-underline hover:text-fg">
+                  Work
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page" className="text-fg">
+                {project.title}
+              </li>
+            </ol>
+          </nav>
 
-        <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-7">
-            <h1 className="animate-rise font-serif text-[3.5rem] leading-[0.95] tracking-[-0.02em] sm:text-7xl lg:text-[6rem]">
-              {project.title}
-            </h1>
-            <div className="mt-10 max-w-[62ch] space-y-5 text-[1.0625rem] leading-relaxed text-muted">
-              {project.description.map((paragraph, index) => (
-                <p key={paragraph.slice(0, 40)} className={index === 0 ? "text-[1.1875rem] text-fg" : undefined}>
-                  {paragraph}
-                </p>
-              ))}
+          <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-7">
+              <h1 className="animate-rise font-serif text-[3.5rem] leading-[0.95] tracking-[-0.02em] sm:text-7xl lg:text-[6rem]">
+                {project.title}
+              </h1>
+              <div className="mt-10 max-w-[62ch] space-y-5 text-[1.0625rem] leading-relaxed text-muted">
+                {project.description.map((paragraph, index) => (
+                  <p key={paragraph.slice(0, 40)} className={index === 0 ? "text-[1.1875rem] text-fg" : undefined}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
+
+            <dl className="self-start border-t border-fg lg:col-span-4 lg:col-start-9">
+              <div className="border-b border-line py-4">
+                <dt className="meta text-muted">Category</dt>
+                <dd className="mt-1.5 text-[0.9375rem]">{project.category}</dd>
+              </div>
+              <div className="border-b border-line py-4">
+                <dt className="meta text-muted">Status</dt>
+                <dd className="meta mt-1.5 text-[0.75rem] text-accent">{project.status}</dd>
+              </div>
+              <div className="border-b border-line py-4">
+                <dt className="meta text-muted">{project.stackLabel ?? "Technology"}</dt>
+                <dd className="mt-1.5 text-[0.9375rem] leading-relaxed">{project.stack.join(" · ")}</dd>
+              </div>
+              <div className="border-b border-line py-4">
+                <dt className="meta text-muted">Links</dt>
+                {[project.source, ...(project.links ?? [])].map((link) => (
+                  <dd key={link.href} className="mt-1.5 text-[0.9375rem]">
+                    <TextLink href={link.href}>{link.label}</TextLink>
+                  </dd>
+                ))}
+              </div>
+            </dl>
           </div>
-
-          <dl className="self-start border-t border-fg lg:col-span-4 lg:col-start-9">
-            <div className="border-b border-line py-4">
-              <dt className="meta text-muted">Category</dt>
-              <dd className="mt-1.5 text-[0.9375rem]">{project.category}</dd>
-            </div>
-            <div className="border-b border-line py-4">
-              <dt className="meta text-muted">Status</dt>
-              <dd className="meta mt-1.5 text-[0.75rem] text-accent">{project.status}</dd>
-            </div>
-            <div className="border-b border-line py-4">
-              <dt className="meta text-muted">{project.stackLabel ?? "Technology"}</dt>
-              <dd className="mt-1.5 text-[0.9375rem] leading-relaxed">{project.stack.join(" · ")}</dd>
-            </div>
-            <div className="border-b border-line py-4">
-              <dt className="meta text-muted">Links</dt>
-              {[project.source, ...(project.links ?? [])].map((link) => (
-                <dd key={link.href} className="mt-1.5 text-[0.9375rem]">
-                  <TextLink href={link.href}>{link.label}</TextLink>
-                </dd>
-              ))}
-            </div>
-          </dl>
-        </div>
-      </header>
+        </header>
+      </div>
 
       <div className="page-container mt-14 lg:mt-20">
         <ProjectVisual kind={project.visual} />
@@ -178,7 +180,7 @@ export function ProjectArticle({ project }: { project: Project }) {
         </Block>
       </div>
 
-      <nav aria-label="More projects" className="page-container mt-8">
+      <nav aria-label="More projects" className="page-container mt-8 mb-16 lg:mb-24">
         <div className="grid border-y border-fg sm:grid-cols-2">
           <Link
             href={`/work/${previous.slug}`}
@@ -204,7 +206,7 @@ export function ProjectArticle({ project }: { project: Project }) {
           </Link>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-4 py-6 text-sm">
-          <Link href="/#work" className="link-underline">
+          <Link href="/work" className="link-underline">
             <span aria-hidden="true">← </span>Back to all work
           </Link>
           <TextLink href={project.source.href} className="text-muted hover:text-fg">

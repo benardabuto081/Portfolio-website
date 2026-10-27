@@ -1,20 +1,44 @@
+import Link from "next/link";
 import { Fragment, type ReactNode } from "react";
-import type { BlogBlock } from "@/content/blog";
+import type { BlogBlock, BlogPost } from "@/content/blog";
 
-/** Renders `inline code` spans; everything else is plain text. */
+const INLINE = /(`[^`]+`|\[[^\]]+\]\([^)\s]+\))/g;
+const LINK = /^\[([^\]]+)\]\(([^)\s]+)\)$/;
+
+/** Renders `inline code` and [text](url) links; everything else is plain text. */
 function Inline({ text }: { text: string }) {
-  const parts = text.split(/(`[^`]+`)/g);
   return (
     <>
-      {parts.map((part, index) =>
-        part.startsWith("`") && part.endsWith("`") ? (
-          <code key={index} className="rounded-sm bg-surface px-1.5 py-0.5 font-mono text-[0.875em] text-fg">
-            {part.slice(1, -1)}
-          </code>
-        ) : (
-          <Fragment key={index}>{part}</Fragment>
-        ),
-      )}
+      {text.split(INLINE).map((part, index) => {
+        if (part.startsWith("`") && part.endsWith("`")) {
+          return (
+            <code key={index} className="rounded-sm bg-surface px-1.5 py-0.5 font-mono text-[0.875em] text-fg">
+              {part.slice(1, -1)}
+            </code>
+          );
+        }
+        const link = part.match(LINK);
+        if (link) {
+          const [, label, href] = link;
+          return href.startsWith("/") ? (
+            <Link key={index} href={href} className="text-fg underline decoration-accent underline-offset-4">
+              {label}
+            </Link>
+          ) : (
+            <a
+              key={index}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-fg underline decoration-accent underline-offset-4"
+            >
+              {label}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          );
+        }
+        return <Fragment key={index}>{part}</Fragment>;
+      })}
     </>
   );
 }
@@ -90,5 +114,32 @@ export function PostBody({ blocks }: { blocks: BlogBlock[] }) {
         <Block key={index} block={block} />
       ))}
     </div>
+  );
+}
+
+/** Numbered list of external sources consulted for a post. */
+export function PostSources({ sources }: { sources: NonNullable<BlogPost["sources"]> }) {
+  return (
+    <section aria-labelledby="sources-heading" className="mt-16 max-w-[68ch] border-t border-line pt-8">
+      <h2 id="sources-heading" className="meta text-muted">
+        Sources
+      </h2>
+      <ol className="mt-5 list-decimal space-y-3 pl-6 text-[0.9375rem] leading-snug text-muted marker:text-muted">
+        {sources.map((source) => (
+          <li key={source.url} className="pl-1">
+            <a
+              href={source.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-fg underline decoration-line underline-offset-4 hover:decoration-accent"
+            >
+              {source.title}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+            <span> — {source.publisher}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }

@@ -23,11 +23,13 @@ export default function NotFound() {
             Home
           </Link>
         </li>
-        <li className="border-b border-line py-4">
-          <Link href="/blog" className="link-underline">
-            Blog
-          </Link>
-        </li>
+        {["about", "work", "research", "blog", "contact"].map((page) => (
+          <li key={page} className="border-b border-line py-4">
+            <Link href={`/${page}`} className="link-underline capitalize">
+              {page}
+            </Link>
+          </li>
+        ))}
         {projects.map((project) => (
           <li key={project.slug} className="flex justify-between gap-4 border-b border-line py-4">
             <Link href={`/work/${project.slug}`} className="link-underline">

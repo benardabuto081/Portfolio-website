@@ -1,6 +1,11 @@
 /**
  * Blog posts. Each post is structured content so it renders consistently and
- * stays fully static. Inline `code` is written with backticks.
+ * stays fully static. Inline `code` is written with backticks, and links as
+ * [text](https://…). External claims are listed in `sources`.
+ *
+ * Dates: `period` is when the work a post describes took place (established
+ * from git history and project documentation); `published` is when the post
+ * actually went live on this site. Posts are ordered by `period`.
  */
 
 export type BlogBlock =
@@ -15,21 +20,25 @@ export type BlogPost = {
   slug: string;
   title: string;
   summary: string;
-  /** ISO date, YYYY-MM-DD. */
-  date: string;
+  /** When the work behind the post took place, YYYY-MM. */
+  period: string;
+  /** When the post was published on this site, YYYY-MM-DD. */
+  published: string;
   /** Project slug the post draws on, for cross-linking. */
   project: string;
   topics: string[];
   body: BlogBlock[];
+  sources?: { title: string; publisher: string; url: string }[];
 };
 
-export const posts: BlogPost[] = [
+const allPosts: BlogPost[] = [
   {
     slug: "when-the-api-chose-my-sampling-design",
     title: "The API chose my sampling design",
     summary:
       "How an undocumented sort order in a public biodiversity API put 97% of my background points in January — and what I changed so that kind of bias gets caught before a model ever sees it.",
-    date: "2026-10-27",
+    period: "2026-08",
+    published: "2026-10-27",
     project: "queleaguard",
     topics: ["Data quality", "Species distribution modelling", "Reproducibility"],
     body: [
@@ -134,7 +143,8 @@ export const posts: BlogPost[] = [
     title: "Spatial cross-validation when the data won’t spread out",
     summary:
       "Random k-fold overstates performance on clustered ecological data. The obvious alternatives broke on my dataset too — here is the fold design QueleaGuard ended up with, and why.",
-    date: "2026-10-27",
+    period: "2026-10",
+    published: "2026-10-27",
     project: "queleaguard",
     topics: ["Model evaluation", "Spatial data", "Research design"],
     body: [
@@ -216,7 +226,8 @@ export const posts: BlogPost[] = [
     title: "AI as a detector, not a decision-maker",
     summary:
       "Designing Scribe AI’s live path: offline speech recognition, rule-based scripture detection, and a human approval step that keeps a wrong guess off a church screen.",
-    date: "2026-10-27",
+    period: "2026-07",
+    published: "2026-10-27",
     project: "scribe-ai",
     topics: ["Applied AI", "Offline-first systems", "Human-in-the-loop"],
     body: [
@@ -296,7 +307,305 @@ export const posts: BlogPost[] = [
       },
     ],
   },
+  {
+    slug: "modelling-the-landlord-who-isnt-there",
+    title: "Modelling the landlord who isn’t there",
+    summary:
+      "Most rental software assumes both sides of a tenancy are on the platform. That assumption fails for many tenants — so Rentra had to represent the relationship before the landlord arrives.",
+    period: "2026-06",
+    published: "2026-10-27",
+    project: "rentra",
+    topics: ["Domain modelling", "Backend architecture", "Product engineering"],
+    body: [
+      {
+        type: "p",
+        text: "The first version of most rental-management software makes a quiet assumption: the landlord signs up, adds a property, and invites tenants. Every record begins on the landlord’s side. When I started building Rentra in June 2026, I began from that assumption too. The first entities in the repository were users and the passkeys a landlord issues to tenants.",
+      },
+      {
+        type: "p",
+        text: "It took about two weeks for the assumption to break. If Rentra only works once a landlord has joined, then a tenant whose landlord never joins gets nothing: no rent history, no reminders, no record of what they have paid. For a product meant to make rental life more orderly, the tenant is often the person who most needs that record.",
+      },
+      { type: "h2", text: "Two kinds of tenant" },
+      {
+        type: "p",
+        text: "Rentra now distinguishes two kinds of tenant. A managed tenant is linked to a real tenancy: a unit, in a building, in a landlord’s portfolio. An independent tenant is someone whose landlord is not on Rentra. They declare their own rental — a name for the property, the rent, how often it is due, and where it is paid — and Rentra keeps the record on their behalf.",
+      },
+      {
+        type: "p",
+        text: "In the code, that self-declared rental is its own entity, a `ShadowRentalRelationship`, rather than a tenancy with some fields left empty. There were three reasons for keeping it separate:",
+      },
+      {
+        type: "list",
+        items: [
+          "A managed tenancy has an owner on the other side; a self-declared rental has only the tenant’s word. Mixing them in one table would mean every query about rent, arrears, or occupancy has to ask which kind of record it is looking at, and every authorisation rule has to account for a landlord who might not exist.",
+          "The information is genuinely different. A self-declared rental records where rent is actually paid — an M-Pesa Paybill, a Till number, or a bank — and allows daily, weekly, or monthly billing cycles, because those are the facts a tenant knows. A managed tenancy gets its structure from the landlord’s records instead.",
+          "It keeps uncertainty visible. Each self-declared rental carries a status — unverified, converted, or ended — so nothing about it pretends to be confirmed.",
+        ],
+      },
+      { type: "h2", text: "When the landlord arrives" },
+      {
+        type: "p",
+        text: "The interesting part is what happens when the absent landlord joins. Rentra’s answer is a passkey: a code the landlord generates for a specific unit. A new tenant can redeem it to register directly as a managed tenant. An independent tenant who already has an account can redeem it to link that account to the real unit.",
+      },
+      {
+        type: "p",
+        text: "What is not built yet is the step after that: carrying the self-declared rental’s history across into the managed tenancy. The `converted` status exists in the schema, but no code path sets it, and payments are not yet linked to self-declared rentals at all. I would rather leave that gap visible than paper over it, because merging two records about the same rental is where the hard questions live. Which rent amount wins if the two disagree? Does a payment the tenant recorded become confirmed once the landlord can see it, or only once the landlord agrees?",
+      },
+      { type: "h2", text: "Roles are not ownership" },
+      {
+        type: "p",
+        text: "The second modelling lesson came later, when I added role-based authorisation. Rentra has three roles — tenant, landlord, and caretaker — and the backend enforces them with guards on its controllers, so a modified mobile client cannot grant itself permissions.",
+      },
+      {
+        type: "p",
+        text: "Role checks answer one question: is this kind of user allowed to do this kind of thing? They do not answer the question that matters most for a tenant’s data: is this your record? The tenant role permits viewing a tenancy; it must not permit viewing someone else’s. That second check, ownership scoping, is still being built, and it is a different mechanism, because it depends on the relationship between a specific user and a specific record rather than on a label attached to the user.",
+      },
+      {
+        type: "p",
+        text: "Caretakers expose the same gap from the other side. A caretaker acts on a landlord’s behalf — but for which buildings? There is not yet an entity that scopes a caretaker to particular properties, so the role exists without the relationship that would make it safe to grant widely.",
+      },
+      { type: "h2", text: "Two vocabularies" },
+      {
+        type: "p",
+        text: "One smaller decision has held up well. Internally, the backend talks about organisations and rooms; people using the app see a property portfolio and units. The internal names are precise and stable, and the product names are the ones people actually use. Keeping them apart lets the data model be refactored without rewriting the interface, and lets the interface speak plainly without leaking database concepts.",
+      },
+      { type: "h2", text: "What I took from it" },
+      {
+        type: "p",
+        text: "Domain modelling is mostly the work of noticing which real situations your first schema cannot represent. The absent landlord is not an edge case in the markets Rentra is designed for; I suspect it is closer to the norm. Giving it its own entity, with an explicit status and an explicit path to becoming something else, made the system more honest about what it actually knows.",
+      },
+      {
+        type: "p",
+        text: "The repository’s README now lists, line by line, which of these pieces exist in code and which do not. That list has been almost as useful to me as the code itself.",
+      },
+    ],
+  },
+  {
+    slug: "coverage-is-not-capability",
+    title: "Coverage is not capability: what Whisper taught me about African speech",
+    summary:
+      "A language appearing in a model’s supported list says little about whether the model will work for your speakers. Why Whisper struggled with the speech I needed, and what I now check before building on any speech model.",
+    period: "2026-07",
+    published: "2026-10-27",
+    project: "scribe-ai",
+    topics: ["Speech recognition", "Model evaluation", "Low-resource languages"],
+    body: [
+      {
+        type: "p",
+        text: "When I built the first version of Scribe AI in July 2026, speech recognition was the part I expected to be easy. OpenAI’s Whisper was open, widely used, and described as multilingual. I ran it locally through Faster-Whisper, wired it into the live pipeline, and moved on to the parts I thought would be hard.",
+      },
+      {
+        type: "p",
+        text: "That expectation did not survive the speech I actually needed to handle. On the African languages and accents I cared about, the results were disappointing — not reliable enough to build on. The problem was not a bug in my pipeline. When I went back to the Whisper paper, it turned out to be close to what the model’s own training data predicts.",
+      },
+      { type: "h2", text: "What “multilingual” meant in practice" },
+      {
+        type: "p",
+        text: "Whisper was trained on 680,000 hours of labelled audio. The paper’s dataset statistics show how that total divides: 438,218 hours of English speech recognition, 125,739 hours of translation into English, and 117,113 hours of speech recognition spread across 96 other languages.",
+      },
+      {
+        type: "p",
+        text: "Within that last group the distribution is extremely uneven. Swahili, one of Africa’s most widely spoken languages, is listed with about 5.4 hours of transcribed speech. Dholuo does not appear in Whisper’s language list at all.",
+      },
+      {
+        type: "quote",
+        text: "“The amount of pre-training speech recognition data for a given language is very predictive of zero-shot performance on that language.” — Radford et al., the Whisper paper",
+      },
+      {
+        type: "p",
+        text: "So the model was behaving exactly as its training implies. The mistake was mine: I had read “multilingual” as a property of the model, when it is really a distribution over languages, and the speech I needed sat in its thin tail.",
+      },
+      { type: "h2", text: "Wider coverage, the same question" },
+      {
+        type: "p",
+        text: "Whisper is not the only option, and the field has moved. In 2023 Meta released Massively Multilingual Speech (MMS), extending speech recognition to more than 1,100 languages, largely by training on recorded readings of the New Testament — around 32 hours per language. In late 2025 Meta released Omnilingual ASR, which it describes as covering more than 1,600 languages, under the Apache 2.0 licence.",
+      },
+      {
+        type: "p",
+        text: "These are real achievements, and they changed what is possible for languages that previously had no speech recognition at all. But they sharpen the lesson rather than retiring it. Meta reports a character error rate below 10 for about 78% of the languages it evaluated with Omnilingual ASR; among low-resource languages, the figure falls to about 36%. Coverage is a list. Capability is a distribution of error rates — usually measured on someone else’s test set.",
+      },
+      {
+        type: "p",
+        text: "Three questions now matter more to me than whether a language appears on the list:",
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          "Does it work on my speakers? Training and benchmark audio is mostly clean and often read aloud. A sermon, a phone call, or a support conversation is spontaneous, accented, frequently noisy, and often switches language mid-sentence. The only reliable way to know is to measure word or character error rate on a small set of your own recordings, transcribed by hand.",
+          "Can I use it for what I am building? Licences differ. The original MMS models were released for non-commercial use only — fine for research, a blocker for a product.",
+          "Can it run where my users are? Scribe runs on whatever laptop a church production desk has, with no internet. That rules out large models on modest CPUs, whatever their accuracy. A model that is accurate in a data centre and unusable on the target hardware is not a solution for that setting.",
+        ],
+      },
+      { type: "h2", text: "Where that left Scribe — and me" },
+      {
+        type: "p",
+        text: "For Scribe, the practical response was architectural. Speech recognition sits in its own module, separate from detection and display, so that a better model can be swapped in later; a formal interface for doing that is still on the roadmap. And every detection still passes through a human operator before it reaches the screen. Neither fixes recognition quality, but together they keep the system safe to use while recognition remains imperfect.",
+      },
+      {
+        type: "p",
+        text: "For me, the experience raised a larger question. If a developer in Kenya wants to build a voice product for people who speak Dholuo, or Kalenjin, or simply Kenyan-accented English, what do they build it on? Searching for an answer is what led me into African speech and language AI as a field, and eventually to start Sauti Labs. [I have written about that separately](/blog/why-i-started-sauti-labs).",
+      },
+    ],
+    sources: [
+      {
+        title: "Robust Speech Recognition via Large-Scale Weak Supervision (Radford et al.)",
+        publisher: "arXiv",
+        url: "https://arxiv.org/abs/2212.04356",
+      },
+      {
+        title: "Whisper language list (tokenizer.py)",
+        publisher: "openai/whisper on GitHub",
+        url: "https://github.com/openai/whisper/blob/main/whisper/tokenizer.py",
+      },
+      {
+        title: "Scaling Speech Technology to 1,000+ Languages (Pratap et al., MMS)",
+        publisher: "arXiv",
+        url: "https://arxiv.org/abs/2305.13516",
+      },
+      {
+        title: "Meta’s new open source models speak more than 1,100 languages",
+        publisher: "The Decoder",
+        url: "https://the-decoder.com/metas-new-open-source-models-speak-more-than-1100-languages/",
+      },
+      {
+        title: "Omnilingual ASR: Open-Source Multilingual Speech Recognition for 1600+ Languages",
+        publisher: "arXiv",
+        url: "https://arxiv.org/abs/2511.09690",
+      },
+      {
+        title: "Meta’s Omnilingual ASR brings speech recognition to 1,600 languages",
+        publisher: "The Decoder",
+        url: "https://the-decoder.com/metas-omnilingual-asr-brings-speech-recognition-to-1600-languages/",
+      },
+    ],
+  },
+  {
+    slug: "why-i-started-sauti-labs",
+    title: "Why I started Sauti Labs",
+    summary:
+      "It began with a speech model that didn’t understand the people I was building for. What I found when I went looking for alternatives, and why I think the distance between African-language research and usable products is worth building a company around.",
+    period: "2026-08",
+    published: "2026-10-27",
+    project: "sauti-labs",
+    topics: ["Sauti Labs", "African languages", "Speech AI"],
+    body: [
+      { type: "p", text: "Sauti Labs started with a practical problem, not a plan to start a company." },
+      {
+        type: "p",
+        text: "In July 2026 I was building Scribe AI, an offline system that listens to a church service and puts the scripture being referenced on screen. Everything in it depends on speech recognition, and for that I used OpenAI’s Whisper. On the African languages and accents the system needed to handle, it disappointed me. [I have written separately about why](/blog/coverage-is-not-capability): Whisper’s training data is overwhelmingly English, Swahili appears with roughly five hours of transcribed speech, and Dholuo — the language that first drew me into this — is not among its languages at all.",
+      },
+      {
+        type: "p",
+        text: "So I went looking for something better: a model I could access, integrate, and rely on. That search took longer than I expected, and it changed what I was looking for.",
+      },
+      { type: "h2", text: "Arriving in a field that already existed" },
+      {
+        type: "p",
+        text: "The first thing I learned is that I was arriving late to serious, sustained work. [Masakhane](https://www.masakhane.io/), a grassroots community whose stated mission is to strengthen and spur NLP research in African languages, has spent years building open datasets, models, and benchmarks. Its MasakhaNER project, for example, released the first large, publicly available named-entity recognition dataset for ten African languages, with the code and models alongside it.",
+      },
+      {
+        type: "p",
+        text: "Closer to home, the Maseno Centre for Applied AI is collecting voice data in five Kenyan languages, Dholuo among them, as part of African Next Voices — a multi-country effort, funded mainly by the Gates Foundation, to build speech datasets for African languages. In South Africa, [Lelapa AI](https://lelapa.ai/) builds products directly: its Vulavula platform transcribes and translates contact-centre conversations in languages such as isiZulu and Sesotho, and its researchers have released InkubaLM, an open small language model for five African languages. Global labs have moved too: Meta’s speech models now claim coverage of more than sixteen hundred languages.",
+      },
+      {
+        type: "p",
+        text: "This is not a field waiting to be discovered. It has years of difficult, often under-resourced work behind it, and whatever I build stands on that work.",
+      },
+      { type: "h2", text: "The distance I kept running into" },
+      {
+        type: "p",
+        text: "And yet, as a developer with a concrete problem, I kept running into the same distance. A dataset existed, but not a model trained for my use. A model listed my language, but its error rates on that language were far from what a product needs. A model worked, but its licence ruled out commercial use, or it needed hardware my users did not have. The products that did exist had been built, sensibly, around particular languages and particular markets — which is how products should start, but which left the speech I needed uncovered.",
+      },
+      {
+        type: "p",
+        text: "Over time that experience hardened into a conviction. I sometimes put it bluntly:",
+      },
+      {
+        type: "quote",
+        text: "Africa doesn’t need another conference paper. It needs products that are accessible to the people and work for them in the most efficient and natural way.",
+      },
+      {
+        type: "p",
+        text: "I should be clear about what I mean, because it is easy to read as a criticism of research. It is not. Papers, datasets, and benchmarks are how a field learns what works; without them there would be nothing for products to stand on, and research and product are not opposites. My point is about where the work tends to stop. Knowledge has its largest effect when someone carries it the rest of the way: into a model trained on real speech, served behind an interface a developer can call, packaged so that a business can deploy it, and good enough that the person on the other end stops noticing it is there. That last stretch is often nobody’s job. It is the stretch I want to work on.",
+      },
+      { type: "h2", text: "Why speech" },
+      {
+        type: "p",
+        text: "I chose speech and voice because I think they will become one of the main ways people interact with AI and with digital services generally — and many African languages are underrepresented in precisely the systems that make those interactions possible.",
+      },
+      {
+        type: "p",
+        text: "That underrepresentation is more than a technical inconvenience. It limits what people can build: a developer who wants to create a voice service for their own community — a clinic line, an advisory service for farmers, a support agent for a local business — cannot do it if there is no capable model underneath. It shapes how people reach services and how naturally they can speak to the technology around them. And when I listen to AI-generated speech in African languages today, I often hear the gap: pronunciation that is slightly off, an accent that belongs to someone else, a delivery without the rhythm of a real speaker.",
+      },
+      {
+        type: "p",
+        text: "Something I watched recently made the stakes concrete. It was a demonstration of a system that let a person who had lost the ability to speak talk again, in a synthetic version of their own voice. Programmes such as ElevenLabs’ Impact Program now offer this kind of voice restoration to people living with conditions like ALS. What stayed with me was not the technical achievement, impressive as it is, but what was returned to that person. I found myself asking what the equivalent would mean for someone whose language no such system yet speaks.",
+      },
+      { type: "h2", text: "What I’m building towards" },
+      {
+        type: "p",
+        text: "ElevenLabs is the clearest example I know of carrying research the rest of the way. Its work spans speech generation, voice cloning, dubbing, and conversational agents, and what I find inspiring is less any single model than the range of things its products let people do. I want Sauti Labs to make the same connection between serious technical work and useful products — for languages, accents, and settings that existing systems were not designed around, and with the linguistic, social, and technical challenges those bring.",
+      },
+      {
+        type: "p",
+        text: "[Sauti Labs](https://sautilabs.co.ke) is an AI research and products company. Its research teams work across speech, language, language resources, model intelligence, and responsible AI, and its first product, Sauti Cloud, is in early access. The ambition is broader than any one capability — speech recognition, natural speech synthesis, voice cloning and dubbing, conversational systems and voice agents, and the datasets, models, and infrastructure beneath them — and broader than any one language. Dholuo shaped how I came to this work, but the work is meant for African languages generally.",
+      },
+      {
+        type: "p",
+        text: "None of that is finished. Those capabilities are a direction, not a description of what exists today, and I am still learning: from the communities and companies that came before, and from the work itself.",
+      },
+      { type: "h2", text: "Why take the risk" },
+      {
+        type: "p",
+        text: "Speech and language AI is expensive and research-intensive. It needs data, compute, funding, expertise, and time — exactly the things many young Africans who see these problems clearly do not have. I decided to take the risk anyway, because I think the problems are important enough to justify being early and under-resourced, and because I want people like me to be among those who build these systems, not only among those who receive them already designed around other languages and other contexts.",
+      },
+      {
+        type: "p",
+        text: "I want African languages to take a full part in whatever AI becomes. That is why Sauti Labs exists.",
+      },
+    ],
+    sources: [
+      { title: "Masakhane", publisher: "masakhane.io", url: "https://www.masakhane.io/" },
+      {
+        title: "MasakhaNER: Named Entity Recognition for African Languages (Adelani et al., 2021)",
+        publisher: "Transactions of the ACL",
+        url: "https://aclanthology.org/2021.tacl-1.66",
+      },
+      {
+        title: "African languages for AI: the project that’s gathering a huge new dataset (Marivate, Adebara, Wanzare)",
+        publisher: "The Conversation",
+        url: "https://theconversation.com/african-languages-for-ai-the-project-thats-gathering-a-huge-new-dataset-266371",
+      },
+      { title: "Lelapa AI and Vulavula", publisher: "lelapa.ai", url: "https://lelapa.ai/" },
+      {
+        title: "InkubaLM: A small language model for low-resource African languages",
+        publisher: "arXiv",
+        url: "https://arxiv.org/abs/2408.17024",
+      },
+      {
+        title: "Omnilingual ASR: Open-Source Multilingual Speech Recognition for 1600+ Languages",
+        publisher: "arXiv",
+        url: "https://arxiv.org/abs/2511.09690",
+      },
+      {
+        title: "Robust Speech Recognition via Large-Scale Weak Supervision (Radford et al.)",
+        publisher: "arXiv",
+        url: "https://arxiv.org/abs/2212.04356",
+      },
+      {
+        title: "ElevenLabs Impact Program announcement",
+        publisher: "ElevenLabs",
+        url: "https://elevenlabs.io/blog/impact-program-announcement",
+      },
+    ],
+  },
 ];
+
+/** Posts ordered by the period of the work they describe, newest first. */
+export const posts: BlogPost[] = [...allPosts].sort(
+  (a, b) => b.period.localeCompare(a.period) || b.published.localeCompare(a.published),
+);
 
 export function getPost(slug: string): BlogPost | undefined {
   return posts.find((post) => post.slug === slug);
@@ -305,6 +614,15 @@ export function getPost(slug: string): BlogPost | undefined {
 export function formatDate(iso: string): string {
   return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
     day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+/** "2026-06" -> "June 2026". */
+export function formatPeriod(period: string): string {
+  return new Date(`${period}-01T00:00:00Z`).toLocaleDateString("en-GB", {
     month: "long",
     year: "numeric",
     timeZone: "UTC",

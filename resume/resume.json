@@ -1,0 +1,160 @@
+{
+  "name": "Bernard Abuto Otieno",
+  "headline": "Machine Learning Research Engineer | AI Systems Engineer",
+  "contact": [
+    [
+      {
+        "text": "Kenya"
+      },
+      {
+        "text": "0116270944",
+        "url": "tel:+254116270944"
+      },
+      {
+        "text": "benardabuto081@gmail.com",
+        "url": "mailto:benardabuto081@gmail.com"
+      },
+      {
+        "text": "bernardabuto.vercel.app",
+        "url": "https://bernardabuto.vercel.app"
+      }
+    ],
+    [
+      {
+        "text": "github.com/benardabuto081",
+        "url": "https://github.com/benardabuto081"
+      },
+      {
+        "text": "linkedin.com/in/bernard-abuto-888207343",
+        "url": "https://www.linkedin.com/in/bernard-abuto-888207343/"
+      }
+    ]
+  ],
+  "summary": "Machine learning research engineer working where research meets systems: data pipelines, evaluation design, and the software around models. Founder and Chief Research Officer of Sauti Labs, an AI research and products company building speech and language technology for African languages. Recent work includes a reproducible geospatial ML study with spatially blocked validation and an offline speech-recognition system gated by human approval.",
+  "experience": [
+    {
+      "title": "Founder, CEO & Chief Research Officer",
+      "org": "Sauti Labs",
+      "location": "Kenya",
+      "dates": "Jun 2026 – Present",
+      "link": {
+        "text": "sautilabs.co.ke",
+        "url": "https://sautilabs.co.ke"
+      },
+      "bullets": [
+        "Lead an AI research and products company for African speech and language technology; set the research agenda across five teams spanning speech, language, data, models, and responsible AI.",
+        "Direct strategy with a leadership team covering operations, engineering, machine learning, and legal and AI governance; the first product, Sauti Cloud (speech recognition, speech generation, voice AI), is in early access.",
+        "Set up the engineering foundation of the company website: architecture specification, decision records, GitHub Actions CI, and Vercel deployment."
+      ]
+    },
+    {
+      "title": "Digital Media & Marketing Lead",
+      "org": "Google Developer Groups Chuka",
+      "location": "Chuka, Kenya",
+      "dates": "Nov 2025 – Apr 2026",
+      "bullets": [
+        "Documented and communicated the community’s workshops, hackathons, and learning initiatives through digital media, making technical community activity visible to a wider developer audience."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "QueleaGuard",
+      "focus": "Applied ML research: species occurrence modelling from geospatial data",
+      "dates": "2026 – Present",
+      "tech": "Python, pandas, GeoPandas, Rasterio, xarray, scikit-learn",
+      "link": {
+        "text": "github.com/benardabuto081/QueleaGuard",
+        "url": "https://github.com/benardabuto081/QueleaGuard"
+      },
+      "bullets": [
+        "Designed a presence-background study of red-billed quelea occurrence around Ahero Rice Irrigation Scheme: a ~50 km extent on a 328-cell, 5.5 km grid, with 133 GBIF presences and 133 target-group background records.",
+        "Built a reproducible pipeline joining CHIRPS, ERA5-Land, MODIS NDVI, SRTM, hydrology, and rice-distribution data into a quality-checked 266-record, 29-column dataset, with 19 logged methodological decisions.",
+        "Traced a sampling bias (90.7% of the background pool in one month) to undocumented GBIF API ordering; rebuilt it with 192 month-stratified queries, cutting the peak monthly share to 8.8%.",
+        "Designed spatially blocked 5-fold cross-validation (presence-anchored k-means) and a 10-predictor baseline chosen by correlation analysis; model training is the next stage."
+      ]
+    },
+    {
+      "name": "Scribe AI",
+      "focus": "Offline speech intelligence for live church production",
+      "dates": "2026",
+      "tech": "Python, Faster-Whisper, SQLite, RapidFuzz, Tkinter, pytest",
+      "link": {
+        "text": "github.com/benardabuto081/-scribe-ai",
+        "url": "https://github.com/benardabuto081/-scribe-ai"
+      },
+      "bullets": [
+        "Built a fully offline pipeline: Faster-Whisper transcription on CPU (int8, voice-activity filtering), rule-based scripture detection across 66 books and four spoken formats, and lookup in a 31,100-verse SQLite database.",
+        "Added an operator approval step so no model output reaches the screen unreviewed, and carried transcript context across 5-second audio chunks to recover split references.",
+        "Wrote a service-state machine and a fuzzy lyric matcher with 14 unit tests; neither is in the live audio path yet."
+      ]
+    },
+    {
+      "name": "Rentra",
+      "focus": "Rental-management platform for tenants, landlords, and caretakers",
+      "dates": "2026",
+      "tech": "TypeScript, NestJS, TypeORM, PostgreSQL (Supabase), Flutter",
+      "link": {
+        "text": "github.com/benardabuto081/Rentra",
+        "url": "https://github.com/benardabuto081/Rentra"
+      },
+      "bullets": [
+        "Architected an 11-module NestJS backend with JWT authentication, role-based guards, and SMS and email one-time-code verification with expiry and attempt limits.",
+        "Modelled portfolios, buildings, units, tenancies, payments, and maintenance, plus self-declared rentals for tenants whose landlord is not on the platform; built the Flutter tenant onboarding flow."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "org": "Open University of Kenya",
+      "programme": "BSc Computer Science",
+      "dates": "Sep 2026 – Expected Apr 2030"
+    },
+    {
+      "org": "Zone01 Kisumu",
+      "programme": "Software Engineering",
+      "dates": "Sep 2026 – Expected Feb 2028"
+    },
+    {
+      "org": "Ngao Labs",
+      "programme": "Data Science & AI Bootcamp, Distinction",
+      "dates": "Jun 2026 – Aug 2026"
+    },
+    {
+      "org": "Power Learn Project",
+      "programme": "AI & Software Engineering Scholarship Programme",
+      "dates": "May 2026 – Present"
+    },
+    {
+      "org": "Chuka University",
+      "programme": "BSc Computer Science (undergraduate coursework)",
+      "dates": "Sep 2025 – Apr 2026"
+    }
+  ],
+  "skills": [
+    {
+      "label": "Languages",
+      "items": "Python, Go, TypeScript, JavaScript, SQL, Dart"
+    },
+    {
+      "label": "ML & Data",
+      "items": "scikit-learn, pandas, NumPy, Jupyter, Matplotlib, Faster-Whisper, RapidFuzz"
+    },
+    {
+      "label": "Geospatial",
+      "items": "GeoPandas, Rasterio, Shapely, xarray; GBIF, Copernicus CDS, and NASA AppEEARS APIs"
+    },
+    {
+      "label": "Methods",
+      "items": "Presence-background sampling, spatial cross-validation, feature selection, data-quality auditing"
+    },
+    {
+      "label": "Systems",
+      "items": "NestJS, Node.js, Express, PostgreSQL, SQLite, TypeORM, Prisma, JWT and RBAC, Flutter, Next.js"
+    },
+    {
+      "label": "Tools",
+      "items": "Git, GitHub Actions, pytest, Docker, Microsoft Azure, Vercel, Linux"
+    }
+  ]
+}

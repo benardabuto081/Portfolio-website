@@ -5,7 +5,7 @@ import { TextLink } from "@/components/ui/TextLink";
 export function Experience() {
   return (
     <section id="experience" aria-labelledby="experience-heading" className="page-container py-16 lg:py-24">
-      <SectionHeader meta="03 / Experience" heading="Where the work happens." headingId="experience-heading" />
+      <SectionHeader meta="Experience" heading="Where the work happens." headingId="experience-heading" />
 
       <ol className="mt-14 lg:mt-20">
         {experience.map((item) => (

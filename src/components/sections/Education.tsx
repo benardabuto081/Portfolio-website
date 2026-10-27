@@ -1,15 +1,12 @@
 import { education } from "@/content/education";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function Education() {
   return (
-    <section id="education" aria-labelledby="education-heading" className="page-container py-12 lg:py-16">
-      <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-3">
-          <h2 id="education-heading" className="font-serif text-[2rem] leading-tight">
-            Education &amp; training.
-          </h2>
-        </div>
-        <ol className="border-t border-fg lg:col-span-9">
+    <section id="education" aria-labelledby="education-heading" className="page-container py-16 lg:py-24">
+      <SectionHeader meta="Education" heading="Education & training." headingId="education-heading" />
+      <div className="mt-14 grid lg:mt-20 lg:grid-cols-12 lg:gap-10">
+        <ol className="border-t border-line lg:col-span-9 lg:col-start-4">
           {education.map((entry) => (
             <li
               key={`${entry.institution}-${entry.programme}`}

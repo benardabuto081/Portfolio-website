@@ -1,12 +1,11 @@
-import { SectionHeader } from "@/components/ui/SectionHeader";
+import { ResumeDownload } from "@/components/ui/ResumeDownload";
 
-export function About() {
+/** Body of /about: how I work, with the resume download alongside. */
+export function AboutBody() {
   return (
-    <section id="about" aria-labelledby="about-heading" className="page-container py-16 lg:py-24">
-      <SectionHeader meta="05 / About" heading="A little about how I work." headingId="about-heading" />
-
-      <div className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-12 lg:gap-10">
-        <div className="space-y-6 lg:col-span-7 lg:col-start-4">
+    <section aria-label="How I work" className="page-container py-14 lg:py-20">
+      <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+        <div className="space-y-6 lg:col-span-6 lg:col-start-4">
           <p className="font-serif text-[1.625rem] leading-[1.3] sm:text-[1.875rem]">
             I&apos;m interested in the space between an idea in a research paper and a system that works in
             practice. That means understanding the problem, working through the technical details, building
@@ -21,6 +20,9 @@ export function About() {
             I value clear technical reasoning, documented decisions, careful evaluation, and systems that can be
             understood and improved by the people who work on them.
           </p>
+        </div>
+        <div className="lg:col-span-3 lg:pt-2">
+          <ResumeDownload />
         </div>
       </div>
     </section>

@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { formatDate, readingTime, type BlogPost } from "@/content/blog";
+import { formatPeriod, readingTime, type BlogPost } from "@/content/blog";
 import { getProject } from "@/content/projects";
 
 export function PostList({ posts, headingLevel = 3 }: { posts: BlogPost[]; headingLevel?: 2 | 3 }) {
   const Heading = headingLevel === 2 ? "h2" : "h3";
 
   return (
-    <ol className="border-t border-fg">
+    <ol>
       {posts.map((post) => (
         <li key={post.slug} className="border-b border-line">
           <Link
@@ -14,7 +14,10 @@ export function PostList({ posts, headingLevel = 3 }: { posts: BlogPost[]; headi
             className="group grid gap-3 py-8 transition-colors duration-200 lg:grid-cols-12 lg:gap-10"
           >
             <div className="meta flex flex-wrap gap-x-4 gap-y-1 text-muted lg:col-span-3 lg:flex-col lg:pt-2">
-              <time dateTime={post.date}>{formatDate(post.date)}</time>
+              <span>
+                <span className="sr-only">Work period: </span>
+                <time dateTime={post.period}>{formatPeriod(post.period)}</time>
+              </span>
               <span>{readingTime(post)} min read</span>
               <span className="text-accent">{getProject(post.project)?.title}</span>
             </div>

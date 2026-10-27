@@ -48,13 +48,32 @@ Project pages are generated from `projects.ts` at `/work/[slug]`. To add a proje
 
 When a project changes, update its `components` list (each has a `state`) and its `currentState` first. Those are what keep the site honest.
 
+## Site structure
+
+| Route | Purpose |
+| --- | --- |
+| `/` | Overview: hero, project list, latest posts, short about, contact call to action |
+| `/about` | How I work, resume download, experience, education |
+| `/work`, `/work/[slug]` | Full project showcase with diagrams; one page per project |
+| `/research` | Research pipeline and interests |
+| `/blog`, `/blog/[slug]` | Posts |
+| `/contact` | Contact form |
+
+Navigation lives in `navigation` in `src/content/site.ts` (the footer reuses it). Every top-level page opens with `PageHeader` (`src/components/ui/PageHeader.tsx`); its number matches the page's position in the navigation.
+
 ## Writing a blog post
 
-Posts live in `src/content/blog.ts` as structured blocks (paragraphs, headings, lists, quotes, code, tables); wrap inline code in backticks. Add an entry to `posts` and it appears on the homepage, at `/blog`, in the sitemap, and with its own social preview image. Set `project` to a project slug to cross-link it.
+Posts live in `src/content/blog.ts` as structured blocks (paragraphs, headings, lists, quotes, code, tables). Wrap inline code in backticks and write links as `[text](https://…)` (relative links like `/blog/slug` stay on-site). Add external references to the post's `sources` list; they render as a numbered "Sources" section.
+
+Each post has two dates: `period` (YYYY-MM, when the work it describes happened — establish it from git history) and `published` (YYYY-MM-DD, when it actually went live). Lists are ordered by `period`; structured data and the sitemap use `published`.
 
 ## Portrait
 
 The hero shows `public/images/bernard-portrait.jpg` (4:5 frame). To change it, replace that file and redeploy. If the file is missing, a placeholder is shown instead of a broken image.
+
+## Resume
+
+The downloadable resume (`public/resume/`) is generated from `resume/resume.json` by `resume/build.py`, which produces a PDF and an editable DOCX. See [`resume/README.md`](resume/README.md). The About section and the hero link to it; paths live in `site.resume` in `src/content/site.ts`.
 
 ## Contact form
 
@@ -84,7 +103,7 @@ Canonical URLs, Open Graph URLs, the sitemap, and robots.txt all use one value:
 NEXT_PUBLIC_SITE_URL=https://your-domain.example
 ```
 
-Set it under **Vercel → Project → Settings → Environment Variables**, or in `.env.local` locally. If it is unset, the site falls back to `https://bernard-portfolio-vert.vercel.app` (defined in `src/content/site.ts`).
+Set it under **Vercel → Project → Settings → Environment Variables**, or in `.env.local` locally. If it is unset, the site falls back to `https://bernardabuto.vercel.app` (defined in `src/content/site.ts`).
 
 ## Notes
 

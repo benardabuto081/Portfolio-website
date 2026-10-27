@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { site } from "@/content/site";
 import { Portrait } from "@/components/ui/Portrait";
 import { TextLink } from "@/components/ui/TextLink";
@@ -28,13 +29,13 @@ export function Hero() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
-            <a
-              href="#work"
+            <Link
+              href="/work"
               className="inline-flex min-h-12 items-center gap-3 bg-fg px-6 text-sm font-medium text-canvas transition-colors duration-200 hover:bg-accent"
             >
               Explore my work
-              <span aria-hidden="true">↓</span>
-            </a>
+              <span aria-hidden="true">→</span>
+            </Link>
             <div className="flex items-center gap-8">
               <TextLink href={site.links.github} className="text-sm">
                 GitHub
@@ -42,6 +43,10 @@ export function Hero() {
               <TextLink href={site.links.linkedin} className="text-sm">
                 LinkedIn
               </TextLink>
+              <a href={site.resume.pdf} download className="link-underline text-sm">
+                Resume <span aria-hidden="true">↓</span>
+                <span className="sr-only"> (PDF download)</span>
+              </a>
             </div>
           </div>
 

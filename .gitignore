@@ -43,3 +43,7 @@ next-env.d.ts
 
 # Windows download metadata
 *:Zone.Identifier
+
+# Resume build tooling
+resume/.venv/
+resume/out/

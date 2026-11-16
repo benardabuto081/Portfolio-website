@@ -30,37 +30,34 @@
       }
     ]
   ],
-  "summary": "Machine learning research engineer working where research meets systems: data pipelines, evaluation design, and the software around models. Founder and Chief Research Officer of Sauti Labs, an AI research and products company building speech and language technology for African languages. Recent work includes a reproducible geospatial ML study with spatially blocked validation and an offline speech-recognition system gated by human approval.",
+  "summary": "Machine Learning Research Engineer and AI Systems Engineer working across applied machine learning, research engineering, and software systems development. Experience spans dataset engineering, experimental design, model evaluation, speech recognition, natural language processing, geospatial analysis, and full-stack application development. Builds research-driven systems that connect data, machine learning technologies, software architecture, and practical applications. Particular research interests include low-resource machine learning, multilingual AI, African speech and language technologies, model generalisation, and reliable AI systems.",
   "experience": [
     {
-      "title": "Founder, CEO & Chief Research Officer",
+      "title": "Founder, CEO & Chief Research Officer | Machine Learning Research Engineer | AI Systems Engineer",
       "org": "Sauti Labs",
-      "location": "Kenya",
+      "location": "Kisumu County, Kenya",
       "dates": "Jun 2026 – Present",
       "link": {
         "text": "sautilabs.co.ke",
         "url": "https://sautilabs.co.ke"
       },
       "bullets": [
-        "Lead an AI research and products company for African speech and language technology; set the research agenda across five teams spanning speech, language, data, models, and responsible AI.",
-        "Direct strategy with a leadership team covering operations, engineering, machine learning, and legal and AI governance; the first product, Sauti Cloud (speech recognition, speech generation, voice AI), is in early access.",
-        "Set up the engineering foundation of the company website: architecture specification, decision records, GitHub Actions CI, and Vercel deployment."
-      ]
-    },
-    {
-      "title": "Digital Media & Marketing Lead",
-      "org": "Google Developer Groups Chuka",
-      "location": "Chuka, Kenya",
-      "dates": "Nov 2025 – Apr 2026",
-      "bullets": [
-        "Documented and communicated the community’s workshops, hackathons, and learning initiatives through digital media, making technical community activity visible to a wider developer audience."
+        "Founded and lead an AI research and engineering initiative focused on African speech and language technologies, multilingual AI, and low-resource machine learning.",
+        "Direct technical strategy and research priorities across speech intelligence, language intelligence, language resources, model intelligence, and AI infrastructure.",
+        "Design a framework-first architecture for managing African language datasets, speech resources, metadata, provenance, validation, and cross-language resource discovery.",
+        "Develop reusable infrastructure components, registries, SDK concepts, and engineering conventions connecting language resources with downstream machine learning workflows.",
+        "Engineer dataset ingestion and registration workflows, including integration and validation of Common Voice Swahili resources.",
+        "Design licensing and provenance mechanisms that preserve third-party dataset licensing conditions while maintaining independent licensing for Sauti Labs infrastructure.",
+        "Establish automated repository, licensing, and structural validation within CI/CD workflows.",
+        "Lead research and engineering programmes involving dataset preparation, preprocessing, experimental design, benchmarking, model evaluation, and reproducibility.",
+        "Coordinate technical development across machine learning, speech technology, language resources, software infrastructure, and product engineering."
       ]
     }
   ],
   "projects": [
     {
       "name": "QueleaGuard",
-      "focus": "Applied ML research: species occurrence modelling from geospatial data",
+      "focus": "Machine Learning Research & Environmental Modelling",
       "dates": "2026 – Present",
       "tech": "Python, pandas, GeoPandas, Rasterio, xarray, scikit-learn",
       "link": {
@@ -68,56 +65,67 @@
         "url": "https://github.com/benardabuto081/QueleaGuard"
       },
       "bullets": [
-        "Designed a presence-background study of red-billed quelea occurrence around Ahero Rice Irrigation Scheme: a ~50 km extent on a 328-cell, 5.5 km grid, with 133 GBIF presences and 133 target-group background records.",
-        "Built a reproducible pipeline joining CHIRPS, ERA5-Land, MODIS NDVI, SRTM, hydrology, and rice-distribution data into a quality-checked 266-record, 29-column dataset, with 19 logged methodological decisions.",
-        "Traced a sampling bias (90.7% of the background pool in one month) to undocumented GBIF API ordering; rebuilt it with 192 month-stratified queries, cutting the peak monthly share to 8.8%.",
-        "Designed spatially blocked 5-fold cross-validation (presence-anchored k-means) and a 10-predictor baseline chosen by correlation analysis; model training is the next stage."
+        "Designed a geospatial research workflow covering a 50 km study extent, divided into a 5.5 km grid comprising 328 spatial cells.",
+        "Prepared a spatial dataset containing 133 presence records and 133 pseudo-absence records.",
+        "Integrated environmental and geospatial variables from climate, vegetation, elevation, and hydrological datasets.",
+        "Processed remote-sensing and environmental data, addressing issues including GBIF pagination, temporal sampling bias, and satellite NDVI fill values.",
+        "Developed a baseline modelling and validation workflow, with attention to spatial cross-validation and the risk of spatial data leakage.",
+        "Investigate model performance, spatial generalisation, and interpretability for ecological occurrence estimation."
       ]
     },
     {
       "name": "Scribe AI",
-      "focus": "Offline speech intelligence for live church production",
+      "focus": "AI Systems & Desktop Application Engineering",
       "dates": "2026",
-      "tech": "Python, Faster-Whisper, SQLite, RapidFuzz, Tkinter, pytest",
+      "tech": "Python, Faster-Whisper, SQLite, Tauri 2, React, TypeScript, Rust, Tailwind CSS, Zustand, Vitest",
       "link": {
         "text": "github.com/benardabuto081/-scribe-ai",
         "url": "https://github.com/benardabuto081/-scribe-ai"
       },
       "bullets": [
-        "Built a fully offline pipeline: Faster-Whisper transcription on CPU (int8, voice-activity filtering), rule-based scripture detection across 66 books and four spoken formats, and lookup in a 31,100-verse SQLite database.",
-        "Added an operator approval step so no model output reaches the screen unreviewed, and carried transcript context across 5-second audio chunks to recover split references.",
-        "Wrote a service-state machine and a fuzzy lyric matcher with 14 unit tests; neither is in the live audio path yet."
+        "Developed a desktop application foundation using Tauri 2, React 18, TypeScript, Tailwind CSS, Zustand, and Rust.",
+        "Implemented a typed command-bus architecture supporting application actions, validation, permissions, undo operations, audit logging, keyboard shortcuts, and AI action gating.",
+        "Designed independent Audience and Stage output windows, with on-air state managed in the Rust layer to improve output resilience.",
+        "Built a local Python speech-processing prototype using Faster-Whisper for offline transcription and rule-based detection of Bible references.",
+        "Integrated SQLite-based Bible lookup containing approximately 31,100 verses and a human approval workflow before detected scripture is displayed.",
+        "Developed lyric-matching and service-state detection components, with integration into the live audio workflow remaining in progress.",
+        "Established automated frontend and Rust testing, including 95 frontend tests and 5 Rust tests reported by the project documentation."
       ]
     },
     {
       "name": "Rentra",
-      "focus": "Rental-management platform for tenants, landlords, and caretakers",
+      "focus": "Full-Stack Product Engineering",
       "dates": "2026",
-      "tech": "TypeScript, NestJS, TypeORM, PostgreSQL (Supabase), Flutter",
+      "tech": "Flutter, Dart, NestJS, TypeScript, PostgreSQL, Supabase, TypeORM, JWT, Africa's Talking, Resend",
       "link": {
         "text": "github.com/benardabuto081/Rentra",
         "url": "https://github.com/benardabuto081/Rentra"
       },
       "bullets": [
-        "Architected an 11-module NestJS backend with JWT authentication, role-based guards, and SMS and email one-time-code verification with expiry and attempt limits.",
-        "Modelled portfolios, buildings, units, tenancies, payments, and maintenance, plus self-declared rentals for tenants whose landlord is not on the platform; built the Flutter tenant onboarding flow."
+        "Develop a multi-layer application architecture comprising a Flutter mobile client and a NestJS backend connected to PostgreSQL through Supabase and TypeORM.",
+        "Implement backend domain modules covering authentication, users, property portfolios, buildings, rental units, tenancy records, payments, maintenance, dashboards, and independent tenant relationships.",
+        "Build authentication workflows supporting landlord registration, tenant registration, phone- and email-based login, OTP verification, and landlord-issued tenant passkeys.",
+        "Implement JWT-based authentication and role-based access controls using NestJS guards and role decorators.",
+        "Develop mobile application onboarding and tenant workflows using Flutter and Dart, including account creation, verification, role selection, setup, navigation, and account management.",
+        "Integrate external communication services for OTP delivery through Africa's Talking and Resend.",
+        "Structure the product around managed and independent tenants, allowing rental relationships to be represented even when a landlord is not yet registered on the platform."
       ]
     }
   ],
   "education": [
     {
-      "org": "Open University of Kenya",
-      "programme": "BSc Computer Science",
+      "org": "The Open University of Kenya",
+      "programme": "Bachelor of Science in Computer Science",
       "dates": "Sep 2026 – Expected Apr 2030"
     },
     {
       "org": "Zone01 Kisumu",
-      "programme": "Software Engineering",
+      "programme": "Software Engineering Programme",
       "dates": "Sep 2026 – Expected Feb 2028"
     },
     {
       "org": "Ngao Labs",
-      "programme": "Data Science & AI Bootcamp, Distinction",
+      "programme": "Data Science & AI Bootcamp — Distinction",
       "dates": "Jun 2026 – Aug 2026"
     },
     {
@@ -127,34 +135,34 @@
     },
     {
       "org": "Chuka University",
-      "programme": "BSc Computer Science (undergraduate coursework)",
+      "programme": "Bachelor of Science in Computer Science — Completed First Academic Year",
       "dates": "Sep 2025 – Apr 2026"
     }
   ],
   "skills": [
     {
-      "label": "Languages",
-      "items": "Python, Go, TypeScript, JavaScript, SQL, Dart"
+      "label": "Machine Learning & Research",
+      "items": "Applied Machine Learning, Supervised Learning, Classification, Regression, Feature Engineering, Data Preprocessing, Model Evaluation, Experimental Design, Dataset Engineering, Research Methodology, Reproducible Experimentation"
     },
     {
-      "label": "ML & Data",
-      "items": "scikit-learn, pandas, NumPy, Jupyter, Matplotlib, Faster-Whisper, RapidFuzz"
+      "label": "AI & Language Technologies",
+      "items": "Natural Language Processing, Automatic Speech Recognition, Speech Processing, Faster-Whisper, AI Integration, Offline AI Inference, Multilingual AI"
     },
     {
-      "label": "Geospatial",
-      "items": "GeoPandas, Rasterio, Shapely, xarray; GBIF, Copernicus CDS, and NASA AppEEARS APIs"
+      "label": "Programming Languages",
+      "items": "Python, Go, TypeScript, JavaScript, Dart, SQL"
     },
     {
-      "label": "Methods",
-      "items": "Presence-background sampling, spatial cross-validation, feature selection, data-quality auditing"
+      "label": "Software & Systems Engineering",
+      "items": "React, Tauri, Rust, Flutter, NestJS, REST API Development, Backend Architecture, Application Architecture, JWT Authentication, Role-Based Access Control"
     },
     {
-      "label": "Systems",
-      "items": "NestJS, Node.js, Express, PostgreSQL, SQLite, TypeORM, Prisma, JWT and RBAC, Flutter, Next.js"
+      "label": "Data & Infrastructure",
+      "items": "PostgreSQL, SQLite, Supabase, TypeORM, Git, GitHub, Linux, CI/CD, Automated Testing, Data Validation"
     },
     {
-      "label": "Tools",
-      "items": "Git, GitHub Actions, pytest, Docker, Microsoft Azure, Vercel, Linux"
+      "label": "Geospatial & Environmental Analysis",
+      "items": "Geospatial Data Processing, Spatial Analysis, Remote Sensing Data, Environmental Data Integration, Spatial Validation"
     }
   ]
 }

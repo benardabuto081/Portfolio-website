@@ -49,6 +49,16 @@ export async function SiteFooter() {
               </TextLink>
             </li>
             <li>
+              <TextLink href={site.links.googleScholar} className="hover:text-fg">
+                Google Scholar
+              </TextLink>
+            </li>
+            <li>
+              <TextLink href={site.links.researchGate} className="hover:text-fg">
+                ResearchGate
+              </TextLink>
+            </li>
+            <li>
               <TextLink href={site.links.orcid} className="hover:text-fg">
                 ORCID
               </TextLink>

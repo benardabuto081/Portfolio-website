@@ -19,6 +19,8 @@ export const site = {
     github: "https://github.com/benardabuto081",
     linkedin: "https://www.linkedin.com/in/bernard-abuto-888207343/",
     devto: "https://dev.to/bernard_abuto_9970170b9c4",
+    googleScholar: "https://scholar.google.com/citations?user=ll4my3wAAAAJ&hl=en",
+    researchGate: "https://www.researchgate.net/profile/Bernard-Otieno-4?ev=hdr_xprf",
     orcid: "https://orcid.org/0009-0006-5702-4822",
   },
   /** Shown automatically when the file exists in /public — see src/lib/assets.ts. */

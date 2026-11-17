@@ -47,6 +47,8 @@ export function personJsonLd() {
       site.links.github,
       site.links.linkedin,
       site.links.devto,
+      site.links.googleScholar,
+      site.links.researchGate,
       site.links.orcid,
     ],
   };

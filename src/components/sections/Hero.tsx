@@ -46,6 +46,12 @@ export function Hero() {
               <TextLink href={site.links.devto} className="text-sm">
                 DEV Community
               </TextLink>
+              <TextLink href={site.links.googleScholar} className="text-sm">
+                Google Scholar
+              </TextLink>
+              <TextLink href={site.links.researchGate} className="text-sm">
+                ResearchGate
+              </TextLink>
               <TextLink href={site.links.orcid} className="text-sm">
                 ORCID
               </TextLink>

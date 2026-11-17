@@ -19,7 +19,7 @@ const femscanAward = {
   presentationImageCaption:
     "FemScan at the Chuka University AI for Health Innovation Challenge. Photograph: Chuka University.",
   institutionalCoverage: {
-    title: "Students Showcase AI-Driven Health Innovations",
+    title: "Students Showcase AI-Driven Health Innovations as Hackathon Ends",
     href: "https://fast.chuka.ac.ke/students-showcase-ai-driven-health-innovations-as-hackathon-ends/",
     imageHref: "https://fast.chuka.ac.ke/wp-content/uploads/2026/03/DSC_2153.jpg",
   },

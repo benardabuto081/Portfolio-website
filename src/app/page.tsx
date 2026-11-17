@@ -1,4 +1,5 @@
 import { AboutTeaser } from "@/components/home/AboutTeaser";
+import { AwardsTeaser } from "@/components/home/AwardsTeaser";
 import { ContactBand } from "@/components/home/ContactBand";
 import { LatestWriting } from "@/components/home/LatestWriting";
 import { WorkList } from "@/components/home/WorkList";
@@ -13,9 +14,10 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd()).replace(/</g, "\\u003c") }}
       />
       <Hero />
-      <WorkList />
-      <LatestWriting />
       <AboutTeaser />
+      <WorkList />
+      <AwardsTeaser />
+      <LatestWriting />
       <ContactBand />
     </>
   );

@@ -43,6 +43,11 @@ export function personJsonLd() {
       addressCountry: "KE",
     },
     worksFor: { "@type": "Organization", name: "Sauti Labs", url: "https://sautilabs.co.ke" },
-    sameAs: [site.links.github, site.links.linkedin],
+    sameAs: [
+      site.links.github,
+      site.links.linkedin,
+      site.links.devto,
+      site.links.orcid,
+    ],
   };
 }

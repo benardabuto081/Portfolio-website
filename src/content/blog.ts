@@ -27,6 +27,7 @@ export type BlogPost = {
   /** Project slug the post draws on, for cross-linking. */
   project: string;
   topics: string[];
+  originalUrl?: string;
   body: BlogBlock[];
   sources?: { title: string; publisher: string; url: string }[];
 };
@@ -34,6 +35,7 @@ export type BlogPost = {
 const allPosts: BlogPost[] = [
   {
     slug: "when-the-api-chose-my-sampling-design",
+    originalUrl: "https://dev.to/bernard_abuto_9970170b9c4/the-api-chose-my-sampling-design-2g8c",
     title: "The API chose my sampling design",
     summary:
       "How an undocumented sort order in a public biodiversity API put 97% of my background points in January — and what I changed so that kind of bias gets caught before a model ever sees it.",
@@ -140,6 +142,7 @@ const allPosts: BlogPost[] = [
   },
   {
     slug: "spatial-cross-validation-with-clustered-data",
+    originalUrl: "https://dev.to/bernard_abuto_9970170b9c4/spatial-cross-validation-when-the-data-wont-spread-out-5dja",
     title: "Spatial cross-validation when the data won’t spread out",
     summary:
       "Random k-fold overstates performance on clustered ecological data. The obvious alternatives broke on my dataset too — here is the fold design QueleaGuard ended up with, and why.",
@@ -223,6 +226,7 @@ const allPosts: BlogPost[] = [
   },
   {
     slug: "ai-as-a-detector-not-a-decision-maker",
+    originalUrl: "https://dev.to/bernard_abuto_9970170b9c4/ai-as-a-detector-not-a-decision-maker-4bn2",
     title: "AI as a detector, not a decision-maker",
     summary:
       "Designing Scribe AI’s live path: offline speech recognition, rule-based scripture detection, and a human approval step that keeps a wrong guess off a church screen.",
@@ -309,6 +313,7 @@ const allPosts: BlogPost[] = [
   },
   {
     slug: "modelling-the-landlord-who-isnt-there",
+    originalUrl: "https://dev.to/bernard_abuto_9970170b9c4/modelling-the-landlord-who-isnt-there-5flb",
     title: "Modelling the landlord who isn’t there",
     summary:
       "Most rental software assumes both sides of a tenancy are on the platform. That assumption fails for many tenants — so Rentra had to represent the relationship before the landlord arrives.",
@@ -382,6 +387,7 @@ const allPosts: BlogPost[] = [
   },
   {
     slug: "coverage-is-not-capability",
+    originalUrl: "https://dev.to/bernard_abuto_9970170b9c4/coverage-is-not-capability-what-whisper-taught-me-about-african-speech-39l2",
     title: "Coverage is not capability: what Whisper taught me about African speech",
     summary:
       "A language appearing in a model’s supported list says little about whether the model will work for your speakers. Why Whisper struggled with the speech I needed, and what I now check before building on any speech model.",

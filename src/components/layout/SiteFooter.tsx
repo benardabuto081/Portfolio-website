@@ -32,7 +32,7 @@ export async function SiteFooter() {
           <p className="meta">ENGINEERING · RESEARCH · SYSTEMS</p>
         </div>
         <div className="flex flex-col gap-4 sm:items-end">
-          <ul className="flex gap-6 text-sm" aria-label="Elsewhere">
+          <ul className="flex flex-wrap gap-x-6 gap-y-3 text-sm" aria-label="Elsewhere">
             <li>
               <TextLink href={site.links.github} className="hover:text-fg">
                 GitHub
@@ -41,6 +41,16 @@ export async function SiteFooter() {
             <li>
               <TextLink href={site.links.linkedin} className="hover:text-fg">
                 LinkedIn
+              </TextLink>
+            </li>
+            <li>
+              <TextLink href={site.links.devto} className="hover:text-fg">
+                DEV Community
+              </TextLink>
+            </li>
+            <li>
+              <TextLink href={site.links.orcid} className="hover:text-fg">
+                ORCID
               </TextLink>
             </li>
           </ul>

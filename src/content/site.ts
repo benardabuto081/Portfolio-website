@@ -8,16 +8,18 @@ const DEFAULT_SITE_URL = "https://bernardabuto.vercel.app";
 
 export const site = {
   name: "Bernard Abuto",
-  role: "Machine Learning Research Engineer · AI Systems Engineer",
+  role: "Machine Learning Research Engineer",
   location: "Kenya",
   url: (process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/, ""),
   title: "Bernard Abuto — Machine Learning Research Engineer",
   description:
-    "Bernard Abuto is a machine learning research engineer and AI systems engineer in Kenya, working across machine learning, African language technology, and research-oriented software systems.",
+    "Bernard Abuto is a machine learning research engineer in Kenya working on machine learning research, African language technology, and the systems that bring research into practice.",
   email: "benardabuto081@gmail.com",
   links: {
     github: "https://github.com/benardabuto081",
     linkedin: "https://www.linkedin.com/in/bernard-abuto-888207343/",
+    devto: "https://dev.to/bernard_abuto_9970170b9c4",
+    orcid: "https://orcid.org/0009-0006-5702-4822",
   },
   /** Shown automatically when the file exists in /public — see src/lib/assets.ts. */
   assets: {
@@ -35,6 +37,7 @@ export const navigation = [
   { key: "home", label: "Home", href: "/" },
   { key: "about", label: "About", href: "/about" },
   { key: "work", label: "Work", href: "/work" },
+  { key: "awards", label: "Awards", href: "/awards" },
   { key: "research", label: "Research", href: "/research" },
   { key: "blog", label: "Blog", href: "/blog" },
   { key: "contact", label: "Contact", href: "/contact" },

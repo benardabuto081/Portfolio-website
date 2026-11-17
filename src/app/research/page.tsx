@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 export default function ResearchPage() {
   return (
     <>
-      <PageHeader index="03" label="Research" title="Between the model and the system.">
+      <PageHeader index="04" label="Research" title="Between the model and the system.">
         <p>
           Machine learning is more than the model itself. It is also the data, the experiments, the evaluation, the
           infrastructure, and the decisions that determine whether a method works outside a notebook. I&apos;m

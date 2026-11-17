@@ -14,3 +14,9 @@ function publicFileExists(publicPath: string): boolean {
 export function getPortrait(): string | null {
   return publicFileExists(site.assets.portrait) ? site.assets.portrait : null;
 }
+
+
+/** Returns an award image only when its file exists in /public. */
+export function getAwardImage(publicPath: string): string | null {
+  return publicFileExists(publicPath) ? publicPath : null;
+}

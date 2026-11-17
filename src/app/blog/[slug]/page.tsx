@@ -46,8 +46,23 @@ async function Post({ params }: Pick<PageProps<"/blog/[slug]">, "params">) {
     headline: post.title,
     description: post.summary,
     datePublished: post.published,
-    author: { "@type": "Person", name: site.name, url: site.url },
+    author: {
+      "@type": "Person",
+      name: site.name,
+      url: site.url,
+      sameAs: [
+        site.links.github,
+        site.links.linkedin,
+        site.links.devto,
+        site.links.orcid,
+      ],
+    },
     url: absoluteUrl(`/blog/${post.slug}`),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteUrl(`/blog/${post.slug}`),
+    },
+    ...(post.originalUrl ? { sameAs: post.originalUrl } : {}),
   };
 
   return (
@@ -116,6 +131,20 @@ async function Post({ params }: Pick<PageProps<"/blog/[slug]">, "params">) {
       <div className="page-container grid pt-12 lg:grid-cols-12 lg:pt-16">
         <div className="min-w-0 lg:col-span-9 lg:col-start-4">
           <PostBody blocks={post.body} />
+          {post.originalUrl ? (
+            <p className="mt-10 border-t border-line pt-6 text-sm text-muted">
+              Originally published on{" "}
+              <a
+                href={post.originalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-underline text-fg"
+              >
+                DEV Community
+              </a>
+              .
+            </p>
+          ) : null}
           {post.sources?.length ? <PostSources sources={post.sources} /> : null}
         </div>
       </div>

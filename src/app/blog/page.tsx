@@ -13,7 +13,7 @@ export const metadata = pageMetadata({
 export default function BlogIndexPage() {
   return (
     <>
-      <PageHeader index="04" label="Blog" title="Writing from the work.">
+      <PageHeader index="05" label="Blog" title="Writing from the work.">
         <p>
           Engineering decisions, research problems, and the convictions behind them — written from the projects
           themselves, including the parts that went wrong.

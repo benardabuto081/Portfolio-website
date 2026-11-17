@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 export default function ContactPage() {
   return (
     <>
-      <PageHeader index="05" label="Contact" title="Have a problem worth investigating?">
+      <PageHeader index="06" label="Contact" title="Have a problem worth investigating?">
         <p>
           I&apos;m interested in thoughtful conversations about machine learning research, AI systems, African
           language technology, and the engineering work that connects research to practice. If you&apos;re working on

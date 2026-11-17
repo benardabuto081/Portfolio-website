@@ -36,12 +36,18 @@ export function Hero() {
               Explore my work
               <span aria-hidden="true">→</span>
             </Link>
-            <div className="flex items-center gap-8">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
               <TextLink href={site.links.github} className="text-sm">
                 GitHub
               </TextLink>
               <TextLink href={site.links.linkedin} className="text-sm">
                 LinkedIn
+              </TextLink>
+              <TextLink href={site.links.devto} className="text-sm">
+                DEV Community
+              </TextLink>
+              <TextLink href={site.links.orcid} className="text-sm">
+                ORCID
               </TextLink>
               <a href={site.resume.pdf} download className="link-underline text-sm">
                 Resume <span aria-hidden="true">↓</span>

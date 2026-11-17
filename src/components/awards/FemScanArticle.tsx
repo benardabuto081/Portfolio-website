@@ -97,6 +97,14 @@ export function FemScanArticle() {
                 <dd className="mt-1.5 text-[0.9375rem]">{award.date}</dd>
               </div>
               <div className="border-b border-line py-4">
+                <dt className="meta text-muted">Institutional coverage</dt>
+                <dd className="mt-1.5 text-[0.9375rem] leading-relaxed">
+                  <TextLink href={award.institutionalCoverage.href}>
+                    {award.institutionalCoverage.title}
+                  </TextLink>
+                </dd>
+              </div>
+              <div className="border-b border-line py-4">
                 <dt className="meta text-muted">Technology</dt>
                 <dd className="mt-1.5 text-[0.9375rem] leading-relaxed">
                   {award.stack.join(" · ")}
@@ -119,6 +127,53 @@ export function FemScanArticle() {
       </div>
 
       <div className="page-container mt-14 lg:mt-20">
+        <section
+          aria-label="Award presentation"
+          className="grid gap-8 border-b border-line pb-12 lg:grid-cols-12 lg:gap-10"
+        >
+          <figure className="lg:col-span-8">
+            <a
+              href={award.institutionalCoverage.imageHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open the original award presentation photograph on the Chuka University website"
+              className="group block"
+            >
+              <div className="relative aspect-[3/2] overflow-hidden bg-panel">
+                <Image
+                  src={award.presentationImage}
+                  alt={award.presentationImageAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 66vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </div>
+            </a>
+            <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-2 text-sm text-muted">
+              <span>{award.presentationImageCaption}</span>
+              <span className="meta">
+                <TextLink href={award.institutionalCoverage.href}>
+                  Read Chuka University coverage
+                </TextLink>
+              </span>
+            </figcaption>
+          </figure>
+
+          <aside className="self-center lg:col-span-4">
+            <p className="meta text-accent">AWARD RECOGNITION</p>
+            <h2 className="mt-3 font-serif text-3xl leading-tight">
+              {award.placement}
+            </h2>
+            <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">
+              {award.recognition} This was a team achievement by a multidisciplinary group.
+            </p>
+            <p className="meta mt-5 text-muted">
+              {award.event} · {award.date}
+            </p>
+          </aside>
+        </section>
+
         <Block index="01" title="The problem" id="problem">
           <Prose paragraphs={award.question} />
         </Block>
@@ -166,17 +221,9 @@ export function FemScanArticle() {
         </Block>
 
         <Block index="05" title="Recognition" id="recognition">
-          <div className="border border-line bg-panel">
-            <p className="meta border-b border-line px-5 py-3 text-fg sm:px-6">
-              {award.event} · {award.date}
-            </p>
-            <div className="px-5 py-6 sm:px-6 sm:py-8">
-              <p className="font-serif text-3xl leading-tight sm:text-4xl">{award.placement}</p>
-              <p className="mt-4 max-w-[62ch] text-[1.0625rem] leading-relaxed text-muted">
-                {award.recognition} This was a team achievement by a multidisciplinary group.
-              </p>
-            </div>
-          </div>
+          <p className="max-w-[66ch] text-[1.0625rem] leading-relaxed text-muted">
+            The team photograph below provides an additional record of the project and its recognition at the challenge.
+          </p>
 
           {image ? (
             <figure className="mt-10">
